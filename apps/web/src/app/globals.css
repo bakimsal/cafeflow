@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── shadcn/ui CSS Variables (dark theme default) ───────────────────────────── */
+
+@layer base {
+  :root {
+    --background:         222 47% 5%;
+    --foreground:         210 40% 98%;
+    --card:               222 47% 7%;
+    --card-foreground:    210 40% 98%;
+    --popover:            222 47% 8%;
+    --popover-foreground: 210 40% 98%;
+    --primary:            25 95% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary:          217 33% 12%;
+    --secondary-foreground: 210 40% 98%;
+    --muted:              217 33% 12%;
+    --muted-foreground:   215 20% 50%;
+    --accent:             217 33% 14%;
+    --accent-foreground:  210 40% 98%;
+    --destructive:        0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border:             217 33% 14%;
+    --input:              217 33% 14%;
+    --ring:               25 95% 60%;
+    --radius:             0.625rem;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    line-height: 1.6;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar        { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track  { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb  { @apply bg-white/10 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-white/20; }
+}
+
+/* ─── Utility Layer ──────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-dark {
+    background: rgba(10, 10, 20, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #e8924a 0%, #f97316 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
