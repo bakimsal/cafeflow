@@ -8,21 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const auth_controller_1 = require("./modules/auth/auth.controller");
-const auth_service_1 = require("./modules/auth/auth.service");
 const prisma_service_1 = require("./prisma.service");
 const categories_module_1 = require("./modules/categories/categories.module");
 const products_module_1 = require("./modules/products/products.module");
-// Bunu eklediğinden emin ol:
 const tables_module_1 = require("./modules/tables/tables.module");
+const auth_module_1 = require("./modules/auth/auth.module"); // Ana Auth paketini içeri alıyoruz
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        // Buradaki listeye TablesModule'ü eklediğinden emin ol:
-        imports: [categories_module_1.CategoriesModule, products_module_1.ProductsModule, tables_module_1.TablesModule],
-        controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, prisma_service_1.PrismaService],
+        // Parçaları değil, AuthModule'ün kendisini ana sisteme bağlıyoruz
+        imports: [categories_module_1.CategoriesModule, products_module_1.ProductsModule, tables_module_1.TablesModule, auth_module_1.AuthModule],
+        controllers: [], // Parçaları buradan sildik
+        providers: [prisma_service_1.PrismaService], // Parçaları buradan sildik
     })
 ], AppModule);
