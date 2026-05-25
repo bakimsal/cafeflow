@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
+import { CreateCategoryDto } from './dto/create-category.dto'; // <-- DTO'yu buraya çağırdık
 
 @Injectable()
 export class CategoriesService {
   constructor(private prisma: PrismaService) {}
 
-  // 1. Yeni Kategori Ekleme
-  async createCategory(name: string, businessId: string) {
+  // 1. Yeni Kategori Ekleme (Artık DTO paketini kabul ediyor)
+  async createCategory(data: CreateCategoryDto) {
     return this.prisma.category.create({
       data: {
-        name: name,
-        business: { connect: { id: businessId } } 
+        name: data.name,
+        business: { connect: { id: data.businessId } } 
       },
     });
   }

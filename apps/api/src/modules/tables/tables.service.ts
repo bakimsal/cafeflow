@@ -1,20 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
+import { CreateTableDto } from './dto/create-table.dto'; // <-- 1. DTO'yu buraya çağırıyoruz
 
 @Injectable()
 export class TablesService {
   constructor(private prisma: PrismaService) {}
 
-  // 1. Yeni Masa Ekleme
-  async createTable(name: string, qrCode: string, branchId: string) {
+  // 1. Yeni Masa Ekleme (DTO ile güncelledik)
+  async createTable(data: CreateTableDto) { // <-- 2. Artık 3 parça değil, tek DTO paketi alıyor
     return this.prisma.table.create({
       data: {
-        name: name,
-        qrCode: qrCode, 
-        branch: { connect: { id: branchId } } 
+        name: data.name,
+        qrCode: data.qrCode, 
+        branch: { connect: { id: data.branchId } } 
       },
     });
   }
+
+  // --------------------------------------------------------
+  // AŞAĞIDAKİ TÜM KODLARIN EKSİKSİZ VE DOĞRU, AYNEN KALSIN!
+  // --------------------------------------------------------
 
   // 2. Bir Şubedeki Tüm Masaları Getirme
   async getTablesByBranch(branchId: string) {
@@ -25,16 +30,14 @@ export class TablesService {
     });
   }
 
-  // --- YENİ EKLENEN KISIMLAR ---
-
-  // 3. Tek Bir Masayı ID ile Getirme (Detay ekranı için)
+  // 3. Tek Bir Masayı ID ile Getirme
   async getTableById(id: string) {
     return this.prisma.table.findUnique({
       where: { id: id }
     });
   }
 
-  // 4. Masa Güncelleme (İsim, QR Kod veya Durum değişirse)
+  // 4. Masa Güncelleme
   async updateTable(id: string, data: { name?: string; qrCode?: string; status?: any }) {
     return this.prisma.table.update({
       where: { id: id },

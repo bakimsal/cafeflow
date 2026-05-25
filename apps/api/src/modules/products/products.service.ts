@@ -1,21 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
+import { CreateProductDto } from './dto/create-product.dto'; // <-- 1. DTO'yu içeri aldık
 
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
-  // 1. Yeni Ürün Ekleme
-  async createProduct(name: string, price: number, categoryId: string, businessId: string) {
+  // 1. Yeni Ürün Ekleme (Artık 4 parça yerine tek DTO paketi alıyor)
+  async createProduct(data: CreateProductDto) { 
     return this.prisma.product.create({
       data: {
-        name: name,
-        price: price,
-        category: { connect: { id: categoryId } },
-        business: { connect: { id: businessId } }
+        name: data.name,
+        price: data.price,
+        category: { connect: { id: data.categoryId } },
+        business: { connect: { id: data.businessId } }
       },
     });
   }
+
+  // --------------------------------------------------------
+  // AŞAĞIDAKİ TÜM KODLARIN EKSİKSİZ VE DOĞRU, AYNEN KALSIN!
+  // --------------------------------------------------------
 
   // 2. Bir Kategoriye Ait Ürünleri Getirme
   async getProductsByCategory(categoryId: string) {
@@ -23,8 +28,6 @@ export class ProductsService {
       where: { categoryId: categoryId }
     });
   }
-
-  // --- YENİ EKLENEN KISIMLAR ---
 
   // 3. Ürün Güncelleme (Fiyat, İsim, Stok veya Aktiflik durumu)
   async updateProduct(id: string, data: { name?: string; price?: number; isActive?: boolean; stock?: number; description?: string }) {

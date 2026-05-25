@@ -15,17 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TablesController = void 0;
 const common_1 = require("@nestjs/common");
 const tables_service_1 = require("./tables.service");
+const create_table_dto_1 = require("./dto/create-table.dto"); // <-- DTO'yu buraya çağırdık
 let TablesController = class TablesController {
     constructor(tablesService) {
         this.tablesService = tablesService;
     }
-    async createTable(body) {
-        return this.tablesService.createTable(body.name, body.qrCode, body.branchId);
+    async createTable(createTableDto) {
+        // Artık dağınık body yerine, dışarıdan gelen temiz ve kurallı DTO paketini servise yolluyoruz
+        return this.tablesService.createTable(createTableDto);
     }
     async getBranchTables(branchId) {
         return this.tablesService.getTablesByBranch(branchId);
     }
-    // --- YENİ EKLENEN KISIMLAR ---
     async getTableById(id) {
         return this.tablesService.getTableById(id);
     }
@@ -41,7 +42,7 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [create_table_dto_1.CreateTableDto]),
     __metadata("design:returntype", Promise)
 ], TablesController.prototype, "createTable", null);
 __decorate([

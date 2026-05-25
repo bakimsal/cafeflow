@@ -16,12 +16,12 @@ let CategoriesService = class CategoriesService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    // 1. Yeni Kategori Ekleme
-    async createCategory(name, businessId) {
+    // 1. Yeni Kategori Ekleme (Artık DTO paketini kabul ediyor)
+    async createCategory(data) {
         return this.prisma.category.create({
             data: {
-                name: name,
-                business: { connect: { id: businessId } }
+                name: data.name,
+                business: { connect: { id: data.businessId } }
             },
         });
     }

@@ -1,21 +1,21 @@
 import { Controller, Post, Get, Patch, Delete, Body, Param } from '@nestjs/common';
 import { ProductsService } from './products.service';
+import { CreateProductDto } from './dto/create-product.dto'; // <-- DTO eklendi
 
 @Controller('api/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  async createProduct(@Body() body: { name: string; price: number; categoryId: string; businessId: string }) {
-    return this.productsService.createProduct(body.name, body.price, body.categoryId, body.businessId);
+  async createProduct(@Body() createProductDto: CreateProductDto) {
+    // DTO paketini doğrudan servise yolluyoruz
+    return this.productsService.createProduct(createProductDto);
   }
 
   @Get('category/:categoryId') 
   async getCategoryProducts(@Param('categoryId') categoryId: string) {
     return this.productsService.getProductsByCategory(categoryId);
   }
-
-  // --- YENİ EKLENEN KISIMLAR ---
 
   @Patch(':id')
   async updateProduct(

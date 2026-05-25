@@ -15,17 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsController = void 0;
 const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
+const create_product_dto_1 = require("./dto/create-product.dto"); // <-- DTO eklendi
 let ProductsController = class ProductsController {
     constructor(productsService) {
         this.productsService = productsService;
     }
-    async createProduct(body) {
-        return this.productsService.createProduct(body.name, body.price, body.categoryId, body.businessId);
+    async createProduct(createProductDto) {
+        // DTO paketini doğrudan servise yolluyoruz
+        return this.productsService.createProduct(createProductDto);
     }
     async getCategoryProducts(categoryId) {
         return this.productsService.getProductsByCategory(categoryId);
     }
-    // --- YENİ EKLENEN KISIMLAR ---
     async updateProduct(id, body) {
         return this.productsService.updateProduct(id, body);
     }
@@ -38,7 +39,7 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [create_product_dto_1.CreateProductDto]),
     __metadata("design:returntype", Promise)
 ], ProductsController.prototype, "createProduct", null);
 __decorate([

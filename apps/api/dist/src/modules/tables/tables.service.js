@@ -16,16 +16,19 @@ let TablesService = class TablesService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    // 1. Yeni Masa Ekleme
-    async createTable(name, qrCode, branchId) {
+    // 1. Yeni Masa Ekleme (DTO ile güncelledik)
+    async createTable(data) {
         return this.prisma.table.create({
             data: {
-                name: name,
-                qrCode: qrCode,
-                branch: { connect: { id: branchId } }
+                name: data.name,
+                qrCode: data.qrCode,
+                branch: { connect: { id: data.branchId } }
             },
         });
     }
+    // --------------------------------------------------------
+    // AŞAĞIDAKİ TÜM KODLARIN EKSİKSİZ VE DOĞRU, AYNEN KALSIN!
+    // --------------------------------------------------------
     // 2. Bir Şubedeki Tüm Masaları Getirme
     async getTablesByBranch(branchId) {
         return this.prisma.table.findMany({
@@ -34,14 +37,13 @@ let TablesService = class TablesService {
             }
         });
     }
-    // --- YENİ EKLENEN KISIMLAR ---
-    // 3. Tek Bir Masayı ID ile Getirme (Detay ekranı için)
+    // 3. Tek Bir Masayı ID ile Getirme
     async getTableById(id) {
         return this.prisma.table.findUnique({
             where: { id: id }
         });
     }
-    // 4. Masa Güncelleme (İsim, QR Kod veya Durum değişirse)
+    // 4. Masa Güncelleme
     async updateTable(id, data) {
         return this.prisma.table.update({
             where: { id: id },

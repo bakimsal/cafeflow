@@ -16,24 +16,26 @@ let ProductsService = class ProductsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    // 1. Yeni Ürün Ekleme
-    async createProduct(name, price, categoryId, businessId) {
+    // 1. Yeni Ürün Ekleme (Artık 4 parça yerine tek DTO paketi alıyor)
+    async createProduct(data) {
         return this.prisma.product.create({
             data: {
-                name: name,
-                price: price,
-                category: { connect: { id: categoryId } },
-                business: { connect: { id: businessId } }
+                name: data.name,
+                price: data.price,
+                category: { connect: { id: data.categoryId } },
+                business: { connect: { id: data.businessId } }
             },
         });
     }
+    // --------------------------------------------------------
+    // AŞAĞIDAKİ TÜM KODLARIN EKSİKSİZ VE DOĞRU, AYNEN KALSIN!
+    // --------------------------------------------------------
     // 2. Bir Kategoriye Ait Ürünleri Getirme
     async getProductsByCategory(categoryId) {
         return this.prisma.product.findMany({
             where: { categoryId: categoryId }
         });
     }
-    // --- YENİ EKLENEN KISIMLAR ---
     // 3. Ürün Güncelleme (Fiyat, İsim, Stok veya Aktiflik durumu)
     async updateProduct(id, data) {
         return this.prisma.product.update({

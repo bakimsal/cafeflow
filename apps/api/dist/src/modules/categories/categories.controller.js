@@ -15,24 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriesController = void 0;
 const common_1 = require("@nestjs/common");
 const categories_service_1 = require("./categories.service");
+const create_category_dto_1 = require("./dto/create-category.dto"); // <-- DTO'yu ekledik
 let CategoriesController = class CategoriesController {
     constructor(categoriesService) {
         this.categoriesService = categoriesService;
     }
-    // 1. Yeni Kategori Ekleme İsteği
-    async createCategory(body) {
-        return this.categoriesService.createCategory(body.name, body.businessId);
+    // 1. Yeni Kategori Ekleme
+    async createCategory(createCategoryDto) {
+        // DTO paketini doğrudan servise yolluyoruz
+        return this.categoriesService.createCategory(createCategoryDto);
     }
-    // 2. Belirli Bir Kafenin Kategorilerini Getirme İsteği
+    // 2. Belirli Bir Kafenin Kategorilerini Getirme
     async getBusinessCategories(businessId) {
         return this.categoriesService.getCategoriesByBusiness(businessId);
     }
-    // --- YENİ EKLENEN KISIMLAR ---
-    // 3. Kategori Güncelleme İsteği (PATCH)
+    // 3. Kategori Güncelleme
     async updateCategory(id, body) {
         return this.categoriesService.updateCategory(id, body.name, body.isActive);
     }
-    // 4. Kategori Silme İsteği (DELETE)
+    // 4. Kategori Silme
     async deleteCategory(id) {
         return this.categoriesService.deleteCategory(id);
     }
@@ -42,12 +43,11 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [create_category_dto_1.CreateCategoryDto]),
     __metadata("design:returntype", Promise)
 ], CategoriesController.prototype, "createCategory", null);
 __decorate([
-    (0, common_1.Get)('business/:businessId') // Çakışmayı önlemek için URL'yi biraz değiştirdim
-    ,
+    (0, common_1.Get)('business/:businessId'),
     __param(0, (0, common_1.Param)('businessId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
