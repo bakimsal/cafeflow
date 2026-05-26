@@ -118,17 +118,25 @@ export class OrdersService {
     });
   }
 
-  // 4. Adisyonu Kapatma (Ödeme Alma)
+  // 4. Adisyonu Kapatma VE Masayı Boşaltma (YENİ EKLENEN KISIM)
   async completeOrder(orderId: string) {
     const order = await this.prisma.order.findUnique({ where: { id: orderId } });
     
     if (!order) throw new NotFoundException('Sipariş bulunamadı.');
-    
     if (order.status === 'PAID') throw new Error('Bu adisyon zaten kapatılmış!');
 
-    return this.prisma.order.update({
+    // 1. Adisyonu PAID yapıyoruz
+    const updatedOrder = await this.prisma.order.update({
       where: { id: orderId },
       data: { status: 'PAID' },
     });
+
+    // 2. Masanın statüsünü EMPTY yapıp temizliyoruz
+    await this.prisma.table.update({
+      where: { id: order.tableId },
+      data: { status: 'EMPTY' },
+    });
+
+    return updatedOrder;
   }
 }
