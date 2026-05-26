@@ -3,12 +3,13 @@ import { PrismaService } from './prisma.service';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
 import { TablesModule } from './modules/tables/tables.module';
-import { AuthModule } from './modules/auth/auth.module'; // Ana Auth paketini içeri alıyoruz
+import { AuthModule } from './modules/auth/auth.module'; 
+import { OrdersModule } from './modules/orders/orders.module'; // <-- 1. Orders modülünü yukarıda içeri alıyoruz
 
 @Module({
-  // Parçaları değil, AuthModule'ün kendisini ana sisteme bağlıyoruz
-  imports: [CategoriesModule, ProductsModule, TablesModule, AuthModule],
-  controllers: [], // Parçaları buradan sildik
-  providers: [PrismaService], // Parçaları buradan sildik
+  // 2. imports dizisinin en sonuna OrdersModule'ü ekliyoruz
+  imports: [CategoriesModule, ProductsModule, TablesModule, AuthModule, OrdersModule],
+  controllers: [], 
+  providers: [PrismaService], 
 })
 export class AppModule {}

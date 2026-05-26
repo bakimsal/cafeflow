@@ -12,15 +12,16 @@ const prisma_service_1 = require("./prisma.service");
 const categories_module_1 = require("./modules/categories/categories.module");
 const products_module_1 = require("./modules/products/products.module");
 const tables_module_1 = require("./modules/tables/tables.module");
-const auth_module_1 = require("./modules/auth/auth.module"); // Ana Auth paketini içeri alıyoruz
+const auth_module_1 = require("./modules/auth/auth.module");
+const orders_module_1 = require("./modules/orders/orders.module"); // <-- 1. Orders modülünü yukarıda içeri alıyoruz
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        // Parçaları değil, AuthModule'ün kendisini ana sisteme bağlıyoruz
-        imports: [categories_module_1.CategoriesModule, products_module_1.ProductsModule, tables_module_1.TablesModule, auth_module_1.AuthModule],
-        controllers: [], // Parçaları buradan sildik
-        providers: [prisma_service_1.PrismaService], // Parçaları buradan sildik
+        // 2. imports dizisinin en sonuna OrdersModule'ü ekliyoruz
+        imports: [categories_module_1.CategoriesModule, products_module_1.ProductsModule, tables_module_1.TablesModule, auth_module_1.AuthModule, orders_module_1.OrdersModule],
+        controllers: [],
+        providers: [prisma_service_1.PrismaService],
     })
 ], AppModule);
