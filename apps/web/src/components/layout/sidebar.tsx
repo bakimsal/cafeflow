@@ -29,9 +29,7 @@ const NAV_ITEMS = [
   { href: '/reports',    label: 'Raporlar',     icon: BarChart3 },
 ];
 
-const EXTERNAL_ITEMS = [
-  { href: '/menu', label: 'QR Menü Önizle', icon: UtensilsCrossed },
-];
+const QR_MENU_SLUG = 'demo'; // İşletme slug'ı backend entegrasyonuyla gelecek
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -85,24 +83,17 @@ export default function Sidebar() {
         <p className="text-[10px] font-semibold text-white/25 tracking-widest uppercase px-3 mb-1">
           Müşteri
         </p>
-        {EXTERNAL_ITEMS.map(({ href, label, icon: Icon }) => {
-          const isActive = pathname.startsWith(href);
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150',
-                isActive
-                  ? 'bg-brand-500/10 text-brand-400 border border-brand-500/20'
-                  : 'text-white/40 hover:text-white/75 hover:bg-white/5',
-              )}
-            >
-              <Icon className="w-4 h-4 shrink-0" />
-              <span className="flex-1">{label}</span>
-            </Link>
-          );
-        })}
+        {/* QR Menü — yeni sekmede açılır */}
+        <a
+          href={`/menu/${QR_MENU_SLUG}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/40 hover:text-white/75 hover:bg-white/5 transition-all duration-150"
+        >
+          <UtensilsCrossed className="w-4 h-4 shrink-0" />
+          <span className="flex-1">QR Menü Önizle</span>
+          <span className="text-[10px] text-white/20">↗</span>
+        </a>
       </nav>
 
       {/* Bottom — Logout */}
